@@ -6,13 +6,33 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1011</width>
-    <height>770</height>
+    <width>937</width>
+    <height>736</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
+  <widget class="QTableWidget" name="videoTable">
+   <property name="geometry">
+    <rect>
+     <x>60</x>
+     <y>80</y>
+     <width>821</width>
+     <height>621</height>
+    </rect>
+   </property>
+   <property name="rowCount">
+    <number>2</number>
+   </property>
+   <property name="columnCount">
+    <number>2</number>
+   </property>
+   <row/>
+   <row/>
+   <column/>
+   <column/>
+  </widget>
  </widget>
  <resources/>
  <connections/>
