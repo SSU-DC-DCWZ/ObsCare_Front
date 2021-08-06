@@ -43,7 +43,7 @@ class MyApp(QMainWindow):
         self.resize(960, 480)   # 위젯의 크기 조절
 
         self.quitButton()
-        self.openVideo()
+        open_video.main()
         self.statusBar().showMessage('Ready')   # 창 제일 아래에 ready 떠있음
 
         QToolTip.setFont(QFont('SansSerif', 10))
