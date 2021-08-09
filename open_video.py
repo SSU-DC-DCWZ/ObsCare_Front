@@ -1,74 +1,86 @@
 import cv2
-import numpy as np
-from PyQt5.QtWidgets import *
+import sys
+from PyQt5 import QtCore
+from PyQt5 import QtWidgets
+from PyQt5 import QtGui
 
-class Video(QWidget):
-    def __init__(self, id=0):
-        super().__init__()
-        self.CAM_ID = id
+class ShowVideo(QtCore.QObject):
 
-    # 검정색 이미지를 생성 단 배율로 더 크게
-    # hcout : 높이 배수(2: 세로로 2배)
-    # wcount : 넓이 배수 (2: 가로로 2배)
-    def create_image_multiple(self, h, w, d, hcout, wcount):
-        image = np.zeros((h * hcout, w * wcount, d), np.uint8)
-        color = tuple(reversed((0, 0, 0)))
-        image[:] = color
-        return image
+    # pyqtSignal은 사용자가 정하는 시그널이라던데,,,
+    # 1은 일반 영상, 2는 뭐 처리된 영상 내보내는 시그널인듯
+    VideoSignal = QtCore.pyqtSignal(QtGui.QImage)
+    # VideoSignal2 = QtCore.pyqtSignal(QtGui.QImage)
 
-    # 통이미지 하나에 원하는 위치로 복사(표시)
-    # dst : create_image_multiple 함수에서 만든 통 이미지
-    # src : 복사할 이미지
-    # h : 높이
-    # w : 넓이
-    # d : 깊이
-    # col : 행 위치(0부터 시작)
-    # row : 열 위치(0부터 시작)
-    def showMultiImage(self, dst, src, h, w, d, col, row):
-        dst[(col * h):(col * h) + h, (row * w):(row * w) + w] = src[0:h, 0:w]
+    def __init__(self, id = 0, parent=None):
+        super(ShowVideo, self).__init__(parent)
+        self.flag = 0   # 이건 원래 코드에서 canny로 넘어갈지 말지 위한 flag
+        self.id = id
+        self.camera = cv2.VideoCapture(self.id)
 
-    def runVideo(self):
-        self.cap = cv2.VideoCapture(self.CAM_ID)
+    @QtCore.pyqtSlot()
+    def startVideo(self):
+        global image
 
-        if self.cap.isOpened() == False:
-            print("Can't open the CAM(%d)" %(self.CAM_ID))
-            exit()
+        ret, image = self.camera.read()
+        self.height, self.width = image.shape[:2]   # 영상 사이즈
 
-        cv2.namedWindow('multiView')
+        run_video = True
+        while run_video:
+            ret, image = self.camera.read()
+            # 출력 형태 결정
+            color_swapped_image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
-        while (True):
-            # 카메라에서 이미지 얻기
-            ret, frame = self.cap.read()
+            qt_image1 = QtGui.QImage(color_swapped_image.data,
+                                    self.width,
+                                    self.height,
+                                    color_swapped_image.strides[0],
+                                    QtGui.QImage.Format_RGB888)
+            self.VideoSignal.emit(qt_image1)    # 시그널 보내기,,,?
 
-            # 이미지 높이
-            height = frame.shape[0]
-            # 이미지 넓이
-            width = frame.shape[1]
-            # 이미지 색상 크기
-            depth = frame.shape[2]
+            #
+            # if self.flag:
+            #     img_gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+            #     img_canny = cv2.Canny(img_gray, 50, 100)
+            #
+            #     qt_image2 = QtGui.QImage(img_canny.data,
+            #                              self.width,
+            #                              self.height,
+            #                              img_canny.strides[0],
+            #                              QtGui.QImage.Format_Grayscale8)
+            #
+            #     self.VideoSignal2.emit(qt_image2)
 
-            # 화면에 표시할 이미지 만들기 ( 2 x 2 )
-            dstimage = np.zeros((height * 2, width * 2, depth), np.uint8)
-            color = tuple(reversed((0, 0, 0)))
-            dstimage[:] = color
 
-            # 원하는 위치에 복사
-            # 왼쪽 위에 표시(0,0)
-            self.showMultiImage(dstimage, frame, height, width, depth, 0, 0)
-            # 오른쪽 위에 표시(0,1)
-            self.showMultiImage(dstimage, frame, height, width, 1, 0, 1)
-            # 왼쪽 아래에 표시(1,0)
-            self.showMultiImage(dstimage, frame, height, width, 1, 1, 0)
-            # 오른쪽 아래에 표시(1,1)
-            self.showMultiImage(dstimage, frame, height, width, 1, 1, 1)
+            loop = QtCore.QEventLoop()
+            QtCore.QTimer.singleShot(25, loop.quit) #25 ms
+            loop.exec_()
 
-            # 화면 표시
-            cv2.imshow('multiView', dstimage)
+    # @QtCore.pyqtSlot()
+    # def canny(self):
+    #     self.flag = 1 - self.flag
 
-            # 1ms 동안 키입력 대기 ESC키 눌리면 종료
-            if cv2.waitKey(1) == 27:
-                break
 
-        # 윈도우 종료
-        self.cap.release()
-        cv2.destroyWindow('multiView')
+class ImageViewer(QtWidgets.QWidget):
+    def __init__(self, parent=None):
+        super(ImageViewer, self).__init__(parent)
+        self.image = QtGui.QImage()
+        self.setAttribute(QtCore.Qt.WA_OpaquePaintEvent)
+
+    # 그래픽이라는데,,, 그냥 한 판에 하나 영상 띄우기 위한 그런거인듯
+    def paintEvent(self, event):
+        painter = QtGui.QPainter(self)
+        painter.drawImage(0, 0, self.image)
+        self.image = QtGui.QImage()
+
+    def initUI(self):
+        self.setWindowTitle('Test')
+
+    @QtCore.pyqtSlot(QtGui.QImage)
+    def setImage(self, image):
+        if image.isNull():
+            print("Viewer Dropped frame!")
+
+        self.image = image
+        if image.size() != self.size():
+            self.setFixedSize(image.size())
+        self.update()
