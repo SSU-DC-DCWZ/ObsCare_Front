@@ -6,32 +6,53 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>937</width>
-    <height>736</height>
+    <width>904</width>
+    <height>705</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QTableWidget" name="videoTable">
+  <widget class="QWidget" name="verticalLayoutWidget">
    <property name="geometry">
     <rect>
-     <x>60</x>
-     <y>80</y>
-     <width>821</width>
-     <height>621</height>
+     <x>20</x>
+     <y>40</y>
+     <width>81</width>
+     <height>651</height>
     </rect>
    </property>
-   <property name="rowCount">
-    <number>2</number>
+   <layout class="QVBoxLayout" name="menu_layout"/>
+  </widget>
+  <widget class="QWidget" name="verticalLayoutWidget_2">
+   <property name="geometry">
+    <rect>
+     <x>120</x>
+     <y>40</y>
+     <width>561</width>
+     <height>651</height>
+    </rect>
    </property>
-   <property name="columnCount">
-    <number>2</number>
+   <layout class="QVBoxLayout" name="video_vertical_layout">
+    <item>
+     <layout class="QHBoxLayout" name="video_horizontal_layout1">
+      <item>
+       <layout class="QHBoxLayout" name="video_horizontal_layout2"/>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="verticalLayoutWidget_3">
+   <property name="geometry">
+    <rect>
+     <x>700</x>
+     <y>40</y>
+     <width>181</width>
+     <height>651</height>
+    </rect>
    </property>
-   <row/>
-   <row/>
-   <column/>
-   <column/>
+   <layout class="QVBoxLayout" name="alarm_layout"/>
   </widget>
  </widget>
  <resources/>
