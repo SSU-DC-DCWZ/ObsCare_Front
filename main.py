@@ -27,32 +27,22 @@ if __name__ == '__main__':
     vid1.VideoSignal.connect(image_viewer1.setImage)
     vid2.VideoSignal.connect(image_viewer2.setImage)
 
-    # 버튼 생성하고 각 버튼에 기능 부여
-    start_button = QtWidgets.QPushButton('시작1')
+    # 영상 시작 (버튼 돌아가는 걸로 구현되어 있는데,,, 버튼 없애고 어케하는지 모르겠음)
+    start_button = QtWidgets.QPushButton()
     start_button.clicked.connect(vid1.startVideo)
-    start_button2 = QtWidgets.QPushButton('시작2')
+    start_button2 = QtWidgets.QPushButton()
     start_button2.clicked.connect(vid2.startVideo)
-    exit_button = QtWidgets.QPushButton('나가기')
-    exit_button.clicked.connect(QtCore.QCoreApplication.instance().quit)
-
     start_button.click()
-    start_button2.click()
+    #start_button2.click()
 
-    # 레이아웃, 버튼 추가
-    vertical_layout = QtWidgets.QVBoxLayout()
-    horizontal_layout = QtWidgets.QHBoxLayout()
-    horizontal_layout.addWidget(image_viewer1)
-    horizontal_layout.addWidget(image_viewer2)
-    vertical_layout.addLayout(horizontal_layout)
-    # vertical_layout.addWidget(start_button)
-    # vertical_layout.addWidget(start_button2)
-    menu_layout.addWidget(exit_button)
+    # 영상 layout인 video_layout에 영상 추가
+    myWindow.video_layout.addWidget(image_viewer1, 0, 0)
+    myWindow.video_layout.addWidget(image_viewer2, 1, 1)
 
-    layout_widget = QtWidgets.QWidget()
-    layout_widget.setLayout(vertical_layout)
+    # 오른쪽에 알림창에,,, 로그 띄울 거
+    myWindow.textBrowser.setPlainText("print the logs")
+    for i in range(10):
+        myWindow.textBrowser.append(str(i))
 
-    # 창 띄우기
-    # main_window = QtWidgets.QMainWindow()
-    # main_window.setCentralWidget(layout_widget)
     myWindow.show()
     sys.exit(app.exec_())

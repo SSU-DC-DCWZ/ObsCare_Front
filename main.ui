@@ -1,59 +1,112 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Dialog</class>
- <widget class="QDialog" name="Dialog">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>904</width>
-    <height>705</height>
+    <width>1114</width>
+    <height>828</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>MainWindow</string>
   </property>
-  <widget class="QWidget" name="verticalLayoutWidget">
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QPushButton" name="exit_button">
+    <property name="geometry">
+     <rect>
+      <x>910</x>
+      <y>750</y>
+      <width>181</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>나가기</string>
+    </property>
+   </widget>
+   <widget class="QWidget" name="verticalLayoutWidget_3">
+    <property name="geometry">
+     <rect>
+      <x>910</x>
+      <y>10</y>
+      <width>181</width>
+      <height>731</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="alarm_layout">
+     <item>
+      <widget class="QTextBrowser" name="textBrowser"/>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="gridLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>10</y>
+      <width>851</width>
+      <height>761</height>
+     </rect>
+    </property>
+    <layout class="QGridLayout" name="video_layout"/>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>40</y>
-     <width>81</width>
-     <height>651</height>
+     <x>0</x>
+     <y>0</y>
+     <width>1114</width>
+     <height>26</height>
     </rect>
    </property>
-   <layout class="QVBoxLayout" name="menu_layout"/>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string>메뉴</string>
+    </property>
+    <addaction name="actionHome"/>
+   </widget>
+   <widget class="QMenu" name="menu_2">
+    <property name="title">
+     <string>보기</string>
+    </property>
+    <addaction name="actioncurrent_videos"/>
+   </widget>
+   <widget class="QMenu" name="menu_3">
+    <property name="title">
+     <string>호출</string>
+    </property>
+    <addaction name="actionemergency"/>
+    <addaction name="actionfront_desk"/>
+   </widget>
+   <addaction name="menu"/>
+   <addaction name="menu_2"/>
+   <addaction name="menu_3"/>
   </widget>
-  <widget class="QWidget" name="verticalLayoutWidget_2">
-   <property name="geometry">
-    <rect>
-     <x>120</x>
-     <y>40</y>
-     <width>561</width>
-     <height>651</height>
-    </rect>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionHome">
+   <property name="text">
+    <string>Home</string>
    </property>
-   <layout class="QVBoxLayout" name="video_vertical_layout">
-    <item>
-     <layout class="QHBoxLayout" name="video_horizontal_layout1">
-      <item>
-       <layout class="QHBoxLayout" name="video_horizontal_layout2"/>
-      </item>
-     </layout>
-    </item>
-   </layout>
-  </widget>
-  <widget class="QWidget" name="verticalLayoutWidget_3">
-   <property name="geometry">
-    <rect>
-     <x>700</x>
-     <y>40</y>
-     <width>181</width>
-     <height>651</height>
-    </rect>
+  </action>
+  <action name="actioncurrent_videos">
+   <property name="text">
+    <string>current videos</string>
    </property>
-   <layout class="QVBoxLayout" name="alarm_layout"/>
-  </widget>
+  </action>
+  <action name="actionemergency">
+   <property name="text">
+    <string>emergency</string>
+   </property>
+  </action>
+  <action name="actionfront_desk">
+   <property name="text">
+    <string>front desk</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>
