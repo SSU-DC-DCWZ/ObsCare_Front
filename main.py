@@ -15,29 +15,33 @@ if __name__ == '__main__':
     vid1 = ShowVideo(0)
     vid1.moveToThread(thread1)
 
-    thread2 = QtCore.QThread()
-    thread2.start()
-    vid2 = ShowVideo(1)
-    vid2.moveToThread(thread2)
+    # thread2 = QtCore.QThread()
+    # thread2.start()
+    # vid2 = ShowVideo(1)
+    # vid2.moveToThread(thread2)
 
     # 객체 생성
     image_viewer1 = ImageViewer()
     image_viewer2 = ImageViewer()
+    image_viewer3 = ImageViewer()
+    image_viewer4 = ImageViewer()
 
     vid1.VideoSignal.connect(image_viewer1.setImage)
-    vid2.VideoSignal.connect(image_viewer2.setImage)
+    # vid2.VideoSignal.connect(image_viewer2.setImage)
 
     # 영상 시작 (버튼 돌아가는 걸로 구현되어 있는데,,, 버튼 없애고 어케하는지 모르겠음)
     start_button = QtWidgets.QPushButton()
     start_button.clicked.connect(vid1.startVideo)
-    start_button2 = QtWidgets.QPushButton()
-    start_button2.clicked.connect(vid2.startVideo)
+    # start_button2 = QtWidgets.QPushButton()
+    # start_button2.clicked.connect(vid2.startVideo)
     start_button.click()
     #start_button2.click()
 
     # 영상 layout인 video_layout에 영상 추가
     myWindow.video_layout.addWidget(image_viewer1, 0, 0)
     myWindow.video_layout.addWidget(image_viewer2, 1, 1)
+    myWindow.video_layout.addWidget(image_viewer3, 0, 1)
+    myWindow.video_layout.addWidget(image_viewer4, 1, 0)
 
     # 오른쪽에 알림창에,,, 로그 띄울 거
     myWindow.textBrowser.setPlainText("print the logs")

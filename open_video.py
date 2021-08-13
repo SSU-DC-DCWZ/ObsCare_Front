@@ -82,5 +82,5 @@ class ImageViewer(QtWidgets.QWidget):
 
         self.image = image
         if image.size() != self.size():
-            self.setFixedSize(image.size())
+            self.setFixedSize(960, 480)
         self.update()
