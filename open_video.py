@@ -37,28 +37,9 @@ class ShowVideo(QtCore.QObject):
                                     QtGui.QImage.Format_RGB888)
             self.VideoSignal.emit(qt_image1)    # 시그널 보내기,,,?
 
-            #
-            # if self.flag:
-            #     img_gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-            #     img_canny = cv2.Canny(img_gray, 50, 100)
-            #
-            #     qt_image2 = QtGui.QImage(img_canny.data,
-            #                              self.width,
-            #                              self.height,
-            #                              img_canny.strides[0],
-            #                              QtGui.QImage.Format_Grayscale8)
-            #
-            #     self.VideoSignal2.emit(qt_image2)
-
-
             loop = QtCore.QEventLoop()
             QtCore.QTimer.singleShot(25, loop.quit) #25 ms
             loop.exec_()
-
-    # @QtCore.pyqtSlot()
-    # def canny(self):
-    #     self.flag = 1 - self.flag
-
 
 class ImageViewer(QtWidgets.QWidget):
     def __init__(self, parent=None):

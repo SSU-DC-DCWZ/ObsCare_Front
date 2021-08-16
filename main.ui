@@ -59,7 +59,7 @@
      <x>0</x>
      <y>0</y>
      <width>1015</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu">
@@ -72,7 +72,7 @@
     <property name="title">
      <string>보기</string>
     </property>
-    <addaction name="actioncurrent_videos"/>
+    <addaction name="action_prev_video"/>
    </widget>
    <widget class="QMenu" name="menu_3">
     <property name="title">
@@ -91,9 +91,9 @@
     <string>Home</string>
    </property>
   </action>
-  <action name="actioncurrent_videos">
+  <action name="action_prev_video">
    <property name="text">
-    <string>current videos</string>
+    <string>previous_video</string>
    </property>
   </action>
   <action name="actionemergency">
@@ -104,6 +104,11 @@
   <action name="actionfront_desk">
    <property name="text">
     <string>front desk</string>
+   </property>
+  </action>
+  <action name="actionPrevious_Video">
+   <property name="text">
+    <string>Previous Video</string>
    </property>
   </action>
  </widget>

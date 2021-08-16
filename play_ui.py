@@ -1,6 +1,7 @@
 from PyQt5.QtWidgets import *
 from PyQt5 import uic
 from PyQt5 import QtCore
+from play_prev import *
 
 form_class = uic.loadUiType("main.ui")[0]
 
@@ -15,3 +16,8 @@ class WindowClass(QMainWindow, form_class):
         self.setupUi(self)
 
         self.exit_button.clicked.connect(QtCore.QCoreApplication.instance().quit)
+        self.action_prev_video.triggered.connect(self.play_prev_video)
+
+    def play_prev_video(self):
+        self.PreVideo = VideoWindow()
+        self.PreVideo.show()
