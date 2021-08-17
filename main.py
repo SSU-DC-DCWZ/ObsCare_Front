@@ -43,10 +43,5 @@ if __name__ == '__main__':
     myWindow.video_layout.addWidget(image_viewer3, 0, 1)
     myWindow.video_layout.addWidget(image_viewer4, 1, 0)
 
-    # 오른쪽에 알림창에,,, 로그 띄울 거
-    myWindow.textBrowser.setPlainText("print the logs")
-    for i in range(10):
-        myWindow.textBrowser.append(str(i))
-
     myWindow.show()
     sys.exit(app.exec_())

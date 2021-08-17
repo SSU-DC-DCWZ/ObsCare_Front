@@ -17,7 +17,14 @@ class WindowClass(QMainWindow, form_class):
 
         self.exit_button.clicked.connect(QtCore.QCoreApplication.instance().quit)
         self.action_prev_video.triggered.connect(self.play_prev_video)
+        self.show_alert()
 
     def play_prev_video(self):
         self.PreVideo = VideoWindow()
         self.PreVideo.show()
+
+    def show_alert(self):
+        # 오른쪽에 알림창에,,, 로그 띄울 거
+        self.alert_browser.setPlainText("print the logs")
+        for i in range(500):
+            self.alert_browser.append(str(i))
