@@ -3,30 +3,35 @@ import sys
 from PyQt5 import QtCore
 from PyQt5 import QtWidgets
 from PyQt5 import QtGui
+import imutils
 
 class ShowVideo(QtCore.QObject):
 
     # pyqtSignal은 사용자가 정하는 시그널이라던데,,,
     # 1은 일반 영상, 2는 뭐 처리된 영상 내보내는 시그널인듯
     VideoSignal = QtCore.pyqtSignal(QtGui.QImage)
-    # VideoSignal2 = QtCore.pyqtSignal(QtGui.QImage)
 
     def __init__(self, id = 0, parent=None):
         super(ShowVideo, self).__init__(parent)
         self.flag = 0   # 이건 원래 코드에서 canny로 넘어갈지 말지 위한 flag
         self.id = id
         self.camera = cv2.VideoCapture(self.id)
+        self.camera.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
+        self.camera.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
 
     @QtCore.pyqtSlot()
     def startVideo(self):
         global image
 
         ret, image = self.camera.read()
+        # image = imutils.resize(image, width=1280)
         self.height, self.width = image.shape[:2]   # 영상 사이즈
+        print(self.height, self.width)
 
         run_video = True
         while run_video:
             ret, image = self.camera.read()
+
             # 출력 형태 결정
             color_swapped_image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
@@ -62,6 +67,5 @@ class ImageViewer(QtWidgets.QWidget):
             print("Viewer Dropped frame!")
 
         self.image = image
-        if image.size() != self.size():
-            self.setFixedSize(960, 480)
+        self.setFixedSize(image.size())
         self.update()

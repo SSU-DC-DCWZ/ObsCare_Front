@@ -32,10 +32,10 @@ if __name__ == '__main__':
     # 영상 시작 (버튼 돌아가는 걸로 구현되어 있는데,,, 버튼 없애고 어케하는지 모르겠음)
     start_button = QtWidgets.QPushButton()
     start_button.clicked.connect(vid1.startVideo)
-    # start_button2 = QtWidgets.QPushButton()
+    start_button2 = QtWidgets.QPushButton()
     # start_button2.clicked.connect(vid2.startVideo)
     start_button.click()
-    #start_button2.click()
+    # start_button2.click()
 
     # 영상 layout인 video_layout에 영상 추가
     myWindow.video_layout.addWidget(image_viewer1, 0, 0)
@@ -43,5 +43,5 @@ if __name__ == '__main__':
     myWindow.video_layout.addWidget(image_viewer3, 0, 1)
     myWindow.video_layout.addWidget(image_viewer4, 1, 0)
 
-    myWindow.show()
+    myWindow.showMaximized()
     sys.exit(app.exec_())
