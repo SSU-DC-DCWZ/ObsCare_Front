@@ -20,7 +20,7 @@ class WindowClass(QMainWindow, form_class):
         self.show_alert(1)
 
     def play_prev_video(self):
-        self.PreVideo = VideoWindow()
+        self.PreVideo = Window()
         self.PreVideo.show()
 
     def show_alert(self, code):

@@ -11,13 +11,13 @@ class ShowVideo(QtCore.QObject):
     # 1은 일반 영상, 2는 뭐 처리된 영상 내보내는 시그널인듯
     VideoSignal = QtCore.pyqtSignal(QtGui.QImage)
 
-    def __init__(self, id = 0, parent=None):
+    def __init__(self, id = 0, width=1080, height=720, parent=None):
         super(ShowVideo, self).__init__(parent)
         self.flag = 0   # 이건 원래 코드에서 canny로 넘어갈지 말지 위한 flag
         self.id = id
         self.camera = cv2.VideoCapture(self.id)
-        self.camera.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
-        self.camera.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
+        self.camera.set(cv2.CAP_PROP_FRAME_HEIGHT, height)
+        self.camera.set(cv2.CAP_PROP_FRAME_WIDTH, width)
 
     @QtCore.pyqtSlot()
     def startVideo(self):
@@ -26,7 +26,6 @@ class ShowVideo(QtCore.QObject):
         ret, image = self.camera.read()
         # image = imutils.resize(image, width=1280)
         self.height, self.width = image.shape[:2]   # 영상 사이즈
-        print(self.height, self.width)
 
         run_video = True
         while run_video:

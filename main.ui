@@ -27,7 +27,7 @@
     <item row="0" column="0" rowspan="2">
      <layout class="QGridLayout" name="video_layout">
       <property name="spacing">
-       <number>2</number>
+       <number>1</number>
       </property>
      </layout>
     </item>
