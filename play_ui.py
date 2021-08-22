@@ -16,12 +16,20 @@ class WindowClass(QMainWindow, form_class):
         self.setupUi(self)
 
         self.exit_button.clicked.connect(QtCore.QCoreApplication.instance().quit)
-        self.action_prev_video.triggered.connect(self.play_prev_video)
+        self.action_prev_video.triggered.connect(self.get_find_date)
         self.show_alert(1)
 
-    def play_prev_video(self):
-        self.PreVideo = Window()
-        self.PreVideo.show()
+    def get_find_date(self):
+        date, ok = QInputDialog.getText(self, 'GetDate', '날짜를 입력하시오 (YYYY-MM-DD) : ')
+
+        if ok:
+            self.alert_browser.append(date)
+
+    def play_prev_video(self, date):
+        self.hide()
+        self.PreVideo = PrevWindow()
+        self.PreVideo.exec()
+        #self.show()
 
     def show_alert(self, code):
         # 오른쪽에 알림창에,,, 로그 띄울 거)
@@ -29,8 +37,3 @@ class WindowClass(QMainWindow, form_class):
 
         if code == 1:
             self.alert_browser.append("넘어졌대!")
-
-        for i in range(500):
-            self.alert_browser.append(str(i))
-
-
