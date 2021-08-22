@@ -3,7 +3,6 @@ import sys
 from PyQt5 import QtCore
 from PyQt5 import QtWidgets
 from PyQt5 import QtGui
-import imutils
 
 class ShowVideo(QtCore.QObject):
 
@@ -11,13 +10,13 @@ class ShowVideo(QtCore.QObject):
     # 1은 일반 영상, 2는 뭐 처리된 영상 내보내는 시그널인듯
     VideoSignal = QtCore.pyqtSignal(QtGui.QImage)
 
-    def __init__(self, id = 0, width=1080, height=720, parent=None):
+    def __init__(self, id = 0, parent=None):
         super(ShowVideo, self).__init__(parent)
         self.flag = 0   # 이건 원래 코드에서 canny로 넘어갈지 말지 위한 flag
         self.id = id
         self.camera = cv2.VideoCapture(self.id)
-        self.camera.set(cv2.CAP_PROP_FRAME_HEIGHT, height)
-        self.camera.set(cv2.CAP_PROP_FRAME_WIDTH, width)
+        # self.camera.set(cv2.CAP_PROP_FRAME_HEIGHT, height)
+        # self.camera.set(cv2.CAP_PROP_FRAME_WIDTH, width)
 
     @QtCore.pyqtSlot()
     def startVideo(self):
@@ -51,14 +50,12 @@ class ImageViewer(QtWidgets.QWidget):
         self.image = QtGui.QImage()
         self.setAttribute(QtCore.Qt.WA_OpaquePaintEvent)
 
-    # 그래픽이라는데,,, 그냥 한 판에 하나 영상 띄우기 위한 그런거인듯
+    # 한 판에 하나 영상 띄우기 위한 그런거인듯
     def paintEvent(self, event):
         painter = QtGui.QPainter(self)
-        painter.drawImage(0, 0, self.image)
+        # 규격 안 맞으면 가운데에 위치시키기 위해 좌표 지정
+        painter.drawImage((self.width()-self.image.width())/2, (self.height()-self.image.height())/2, self.image)
         self.image = QtGui.QImage()
-
-    def initUI(self):
-        self.setWindowTitle('Test')
 
     @QtCore.pyqtSlot(QtGui.QImage)
     def setImage(self, image):
@@ -66,5 +63,6 @@ class ImageViewer(QtWidgets.QWidget):
             print("Viewer Dropped frame!")
 
         self.image = image
-        self.setFixedSize(image.size())
+        if image.size() != self.size():
+            self.setFixedSize(image.size())
         self.update()

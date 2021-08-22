@@ -32,3 +32,5 @@ class WindowClass(QMainWindow, form_class):
 
         for i in range(500):
             self.alert_browser.append(str(i))
+
+
