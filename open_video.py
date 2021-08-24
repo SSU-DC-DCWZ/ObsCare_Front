@@ -7,7 +7,6 @@ from PyQt5 import QtGui
 class ShowVideo(QtCore.QObject):
 
     # pyqtSignal은 사용자가 정하는 시그널이라던데,,,
-    # 1은 일반 영상, 2는 뭐 처리된 영상 내보내는 시그널인듯
     VideoSignal = QtCore.pyqtSignal(QtGui.QImage)
 
     def __init__(self, id = 0, parent=None):
@@ -63,5 +62,9 @@ class ImageViewer(QtWidgets.QWidget):
 
         self.image = image
         if image.size() != self.size():
+<<<<<<< HEAD
+            self.setFixedSize(QtCore.QSize(853,480))
+=======
             self.setFixedSize(QtCore.QSize(853, 480))
+>>>>>>> 93f7ba101029e06692aa7511c565d4484dbd9c3b
         self.update()
