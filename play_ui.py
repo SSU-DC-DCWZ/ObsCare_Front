@@ -20,7 +20,7 @@ class WindowClass(QMainWindow, form_class):
         self.show_alert(1)
 
     def get_find_date(self):
-        date, ok = QInputDialog.getText(self, 'GetDate', '날짜를 입력하시오 (YYYY-MM-DD) : ')
+        date, ok = QInputDialog.getText(self, 'GetDate', '날짜를 입력하시오 (YYYYMMDD) : ')
 
         if ok:
             self.alert_browser.append(date)

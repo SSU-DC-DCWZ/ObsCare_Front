@@ -24,7 +24,7 @@ if __name__ == '__main__':
     # vid2 = ShowVideo(1)
     # vid2.moveToThread(thread2)
 
-    # 객체 생성
+    # 영상 재생에 대한 판 객체 생성
     image_viewer1 = ImageViewer()
     image_viewer2 = ImageViewer()
     image_viewer3 = ImageViewer()
@@ -36,7 +36,7 @@ if __name__ == '__main__':
     # 영상 시작 (버튼 돌아가는 걸로 구현되어 있는데,,, 버튼 없애고 어케하는지 모르겠음)
     start_button = QtWidgets.QPushButton()
     start_button.clicked.connect(vid1.startVideo)
-    start_button2 = QtWidgets.QPushButton()
+    # start_button2 = QtWidgets.QPushButton()
     # start_button2.clicked.connect(vid2.startVideo)
     start_button.click()
     # start_button2.click()
