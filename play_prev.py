@@ -1,123 +1,133 @@
-# PyQt5 Video player
-#!/usr/bin/env python
-
-from PyQt5.QtCore import QDir, Qt, QUrl
-from PyQt5.QtMultimedia import QMediaContent, QMediaPlayer
-from PyQt5.QtMultimediaWidgets import QVideoWidget
-from PyQt5.QtWidgets import (QApplication, QFileDialog, QHBoxLayout, QLabel,
-        QPushButton, QSizePolicy, QSlider, QStyle, QVBoxLayout, QWidget)
-from PyQt5.QtWidgets import QMainWindow,QWidget, QPushButton, QAction
-from PyQt5.QtGui import QIcon
+from PyQt5.QtWidgets import QApplication, QWidget, QFileDialog
+from PyQt5.QtCore import Qt, QUrl
+from PyQt5.QtGui import QPalette
+from PyQt5.uic import loadUi
+from prev_playlist import CMultiMedia
 import sys
+import datetime
 
-class VideoWindow(QMainWindow):
+QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
 
-    def __init__(self, parent=None):
-        super(VideoWindow, self).__init__(parent)
-        self.setWindowTitle("PyQt Video Player Widget Example - pythonprogramminglanguage.com")
 
-        self.mediaPlayer = QMediaPlayer(None, QMediaPlayer.VideoSurface)
+class CWidget(QWidget):
+    def __init__(self):
+        super().__init__()
+        loadUi('prev_player.ui', self)
 
-        videoWidget = QVideoWidget()
+        # Multimedia Object
+        self.mp = CMultiMedia(self, self.view)
 
-        self.playButton = QPushButton()
-        self.playButton.setEnabled(False)
-        self.playButton.setIcon(self.style().standardIcon(QStyle.SP_MediaPlay))
-        self.playButton.clicked.connect(self.play)
+        # video background color
+        pal = QPalette()
+        pal.setColor(QPalette.Background, Qt.black)
+        self.view.setAutoFillBackground(True)
+        self.view.setPalette(pal)
 
-        self.positionSlider = QSlider(Qt.Horizontal)
-        self.positionSlider.setRange(0, 0)
-        self.positionSlider.sliderMoved.connect(self.setPosition)
+        # volume, slider
+        self.vol.setRange(0, 100)
+        self.vol.setValue(50)
 
-        self.errorLabel = QLabel()
-        self.errorLabel.setSizePolicy(QSizePolicy.Preferred,
-                QSizePolicy.Maximum)
+        # play time
+        self.duration = ''
 
-        # Create new action
-        openAction = QAction(QIcon('open.png'), '&Open', self)
-        openAction.setShortcut('Ctrl+O')
-        openAction.setStatusTip('Open movie')
-        openAction.triggered.connect(self.openFile)
+        # signal
+        self.btn_add.clicked.connect(self.clickAdd)
+        self.btn_del.clicked.connect(self.clickDel)
+        self.btn_play.clicked.connect(self.clickPlay)
+        self.btn_stop.clicked.connect(self.clickStop)
+        self.btn_pause.clicked.connect(self.clickPause)
+        self.btn_forward.clicked.connect(self.clickForward)
+        self.btn_prev.clicked.connect(self.clickPrev)
 
-        # Create exit action
-        exitAction = QAction(QIcon('exit.png'), '&Exit', self)
-        exitAction.setShortcut('Ctrl+Q')
-        exitAction.setStatusTip('Exit application')
-        exitAction.triggered.connect(self.exitCall)
+        self.list.itemDoubleClicked.connect(self.dbClickList)
+        self.vol.valueChanged.connect(self.volumeChanged)
+        self.bar.sliderMoved.connect(self.barChanged)
 
-        # Create menu bar and add action
-        menuBar = self.menuBar()
-        fileMenu = menuBar.addMenu('&File')
-        #fileMenu.addAction(newAction)
-        fileMenu.addAction(openAction)
-        fileMenu.addAction(exitAction)
+    def clickAdd(self):
+        files, ext = QFileDialog.getOpenFileNames(self
+                                                  , 'Select one or more files to open'
+                                                  , ''
+                                                  , 'Video (*.mp4 *.mpg *.mpeg *.avi *.wma)')
 
-        # Create a widget for window contents
-        wid = QWidget(self)
-        self.setCentralWidget(wid)
+        if files:
+            cnt = len(files)
+            row = self.list.count()
+            for i in range(row, row + cnt):
+                self.list.addItem(files[i - row])
+            self.list.setCurrentRow(0)
 
-        # Create layouts to place inside widget
-        controlLayout = QHBoxLayout()
-        controlLayout.setContentsMargins(0, 0, 0, 0)
-        controlLayout.addWidget(self.playButton)
-        controlLayout.addWidget(self.positionSlider)
+            self.mp.addMedia(files)
 
-        layout = QVBoxLayout()
-        layout.addWidget(videoWidget)
-        layout.addLayout(controlLayout)
-        layout.addWidget(self.errorLabel)
+    def clickDel(self):
+        row = self.list.currentRow()
+        self.list.takeItem(row)
+        self.mp.delMedia(row)
 
-        # Set widget to contain window contents
-        wid.setLayout(layout)
+    def clickPlay(self):
+        index = self.list.currentRow()
+        self.mp.playMedia(index)
 
-        self.mediaPlayer.setVideoOutput(videoWidget)
-        self.mediaPlayer.stateChanged.connect(self.mediaStateChanged)
-        self.mediaPlayer.positionChanged.connect(self.positionChanged)
-        self.mediaPlayer.durationChanged.connect(self.durationChanged)
-        self.mediaPlayer.error.connect(self.handleError)
+    def clickStop(self):
+        self.mp.stopMedia()
 
-    def openFile(self):
-        fileName, _ = QFileDialog.getOpenFileName(self, "test.avi",
-                QDir.homePath())
+    def clickPause(self):
+        self.mp.pauseMedia()
 
-        if fileName != '':
-            self.mediaPlayer.setMedia(
-                    QMediaContent(QUrl.fromLocalFile(fileName)))
-            self.playButton.setEnabled(True)
-
-    def exitCall(self):
-        sys.exit(app.exec_())
-
-    def play(self):
-        if self.mediaPlayer.state() == QMediaPlayer.PlayingState:
-            self.mediaPlayer.pause()
+    def clickForward(self):
+        cnt = self.list.count()
+        curr = self.list.currentRow()
+        if curr < cnt - 1:
+            self.list.setCurrentRow(curr + 1)
+            self.mp.forwardMedia()
         else:
-            self.mediaPlayer.play()
+            self.list.setCurrentRow(0)
+            self.mp.forwardMedia(end=True)
 
-    def mediaStateChanged(self, state):
-        if self.mediaPlayer.state() == QMediaPlayer.PlayingState:
-            self.playButton.setIcon(
-                    self.style().standardIcon(QStyle.SP_MediaPause))
+    def clickPrev(self):
+        cnt = self.list.count()
+        curr = self.list.currentRow()
+        if curr == 0:
+            self.list.setCurrentRow(cnt - 1)
+            self.mp.prevMedia(begin=True)
         else:
-            self.playButton.setIcon(
-                    self.style().standardIcon(QStyle.SP_MediaPlay))
+            self.list.setCurrentRow(curr - 1)
+            self.mp.prevMedia()
 
-    def positionChanged(self, position):
-        self.positionSlider.setValue(position)
+    def dbClickList(self, item):
+        row = self.list.row(item)
+        self.mp.playMedia(row)
 
-    def durationChanged(self, duration):
-        self.positionSlider.setRange(0, duration)
+    def volumeChanged(self, vol):
+        self.mp.volumeMedia(vol)
 
-    def setPosition(self, position):
-        self.mediaPlayer.setPosition(position)
+    def barChanged(self, pos):
+        print(pos)
+        self.mp.posMoveMedia(pos)
 
-    def handleError(self):
-        self.playButton.setEnabled(False)
-        self.errorLabel.setText("Error: " + self.mediaPlayer.errorString())
+    def updateState(self, msg):
+        self.state.setText(msg)
+
+    def updateBar(self, duration):
+        self.bar.setRange(0, duration)
+        self.bar.setSingleStep(int(duration / 10))
+        self.bar.setPageStep(int(duration / 10))
+        self.bar.setTickInterval(int(duration / 10))
+        td = datetime.timedelta(milliseconds=duration)
+        stime = str(td)
+        idx = stime.rfind('.')
+        self.duration = stime[:idx]
+
+    def updatePos(self, pos):
+        self.bar.setValue(pos)
+        td = datetime.timedelta(milliseconds=pos)
+        stime = str(td)
+        idx = stime.rfind('.')
+        stime = f'{stime[:idx]} / {self.duration}'
+        self.playtime.setText(stime)
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    player = VideoWindow()
-    player.resize(640, 480)
-    player.show()
+    w = CWidget()
+    w.show()
     sys.exit(app.exec_())
