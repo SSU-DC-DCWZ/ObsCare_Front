@@ -1,5 +1,5 @@
 import cv2
-from PyQt5.QtWidgets import QApplication, QWidget
+from PyQt5.QtWidgets import QApplication, QWidget, QInputDialog
 from PyQt5.QtCore import Qt, QUrl, QCoreApplication
 from PyQt5.QtMultimedia import QMediaContent, QMediaPlayer
 from PyQt5.uic import loadUi
@@ -39,11 +39,23 @@ class PrevVideo(QWidget):
 
         # signals
         self.btn_play_pause.clicked.connect(self.clickPlayPause)
-        self.btn_exit.clicked.connect(QCoreApplication.instance().quit)
+        self.btn_exit.clicked.connect(lambda:self.close())
+        self.btn_change.clicked.connect(self.change_file)
 
         self.mp.stateChanged.connect(self.mediaStateChanged)
         self.mp.durationChanged.connect(self.durationChanged)
         self.mp.positionChanged.connect(self.positionChanged)
+
+    def change_file(self):
+        info, ok = QInputDialog.getText(self, 'FindVideo', '카메라 번호 - 날짜를 입력하시오 (01-20210101) : ')
+
+        if ok:
+            # cam, date = info.split("-")
+            # self.PreVideo = PrevVideo(cam, date)
+            self.close()
+            self.newVideo = PrevVideo()
+            self.newVideo.show()
+
 
 
     def calc_time(self, sec):   # sec를 시간으로 변경
