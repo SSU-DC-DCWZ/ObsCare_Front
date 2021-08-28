@@ -19,7 +19,7 @@ class PrevVideo(QWidget):
         self.vp = self.view
 
         self.mp.setVideoOutput(self.vp)
-        self.content = QMediaContent(QUrl.fromLocalFile(path))
+        self.content = QMediaContent(QUrl.fromLocalFile("./test.avi"))
         self.mp.setMedia(self.content)
         self.mp.play() # default state : video playing
         self.state.setText("Playing")
