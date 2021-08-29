@@ -19,7 +19,7 @@ class PrevVideo(QWidget):
         self.vp = self.view
 
         self.mp.setVideoOutput(self.vp)
-        self.content = QMediaContent(QUrl.fromLocalFile("./test.avi"))
+        self.content = QMediaContent(QUrl.fromLocalFile(path))
         self.mp.setMedia(self.content)
         self.mp.play() # default state : video playing
         self.state.setText("Playing")
@@ -55,7 +55,6 @@ class PrevVideo(QWidget):
             self.close()
             self.newVideo = PrevVideo()
             self.newVideo.show()
-
 
 
     def calc_time(self, sec):   # sec를 시간으로 변경
