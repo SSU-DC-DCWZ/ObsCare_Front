@@ -1,8 +1,9 @@
 import cv2
-from PyQt5.QtWidgets import QApplication, QWidget, QInputDialog
+from PyQt5.QtWidgets import QApplication, QWidget, QInputDialog, QMessageBox
 from PyQt5.QtCore import Qt, QUrl, QCoreApplication
 from PyQt5.QtMultimedia import QMediaContent, QMediaPlayer
 from PyQt5.uic import loadUi
+from DB_video.videoDB import *
 import sys
 import datetime
 
@@ -11,7 +12,7 @@ QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
 
 class PrevVideo(QWidget):
 
-    def __init__(self, path="./test.avi"):
+    def __init__(self, path=None):
         super().__init__()
         loadUi('prev_player.ui', self)
 
@@ -47,14 +48,19 @@ class PrevVideo(QWidget):
         self.mp.positionChanged.connect(self.positionChanged)
 
     def change_file(self):
-        info, ok = QInputDialog.getText(self, 'FindVideo', '카메라 번호 - 날짜를 입력하시오 (01-20210101) : ')
-
+        info, ok = QInputDialog.getText(self, 'FindVideo', '카메라 번호 - 날짜를 입력하시오 (1-20210101) : ')
         if ok:
-            # cam, date = info.split("-")
-            # self.PreVideo = PrevVideo(cam, date)
-            self.close()
-            self.newVideo = PrevVideo()
-            self.newVideo.show()
+            self.cam, self.date = info.split('-')
+            finddb = DBvideo()
+            get_path = finddb.findrecord(self.cam, self.date)
+
+            if get_path == '':
+                QMessageBox.about(self, "Error!", "올바르지 않은 입력입니다.")
+                return self.change_file()
+
+            self.hide()
+            self.PrevVideo = PrevVideo(get_path)
+            self.PrevVideo.show()
 
 
     def calc_time(self, sec):   # sec를 시간으로 변경

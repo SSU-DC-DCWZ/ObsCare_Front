@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import *
 from PyQt5 import uic
-from PyQt5 import QtCore
 from play_prev import *
+from DB_video.videoDB import *
 import sys
 import os
 
@@ -28,19 +28,17 @@ class WindowClass(QMainWindow, form_class):
         self.show_alert(1)
 
     def get_find_date(self):
-        info, ok = QInputDialog.getText(self, 'FindVideo', '카메라 번호 - 날짜를 입력하시오 (01-20210101) : ')
-
+        info, ok = QInputDialog.getText(self, 'FindVideo', '카메라 번호 - 날짜를 입력하시오 (1-20210101) : ')
         if ok:
-            cam, date = info.split("-")
-            self.alert_browser.append("카메라 : " + cam)
-            self.alert_browser.append("일자 : " + date)
+            self.cam, self.date = info.split('-')
+            finddb = DBvideo()
+            get_path = finddb.findrecord(self.cam, self.date)
 
-            while len(cam) > 3:
+            if get_path == '':
                 QMessageBox.about(self, "Error!", "올바르지 않은 입력입니다.")
                 return self.get_find_date()
 
-            # self.PreVideo = PrevVideo(cam, date)
-            self.PrevVideo = PrevVideo()
+            self.PrevVideo = PrevVideo(get_path)
             self.PrevVideo.show()
 
 
@@ -51,48 +49,8 @@ class WindowClass(QMainWindow, form_class):
         if code == 1:
             self.alert_browser.append("넘어졌대!")
 
-class getInfoDialog(QDialog):
+class InputWindow(QWidget):
     def __init__(self):
         super().__init__()
-        self.setupUI()
-
-        self.cam = None
-        self.date = None
-
-    def setupUI(self):
-        self.setGeometry(1100, 200, 300, 100)
-        self.setWindowTitle("이전 영상 확인")
-
-        label1 = QLabel("카메라 번호 : ")
-        label2 = QLabel("날짜 (20210123) : ")
-
-        self.lineEdit1 = QLineEdit()
-        self.lineEdit2 = QLineEdit()
-
-        inputLayout = QGridLayout()
-        inputLayout.addWidget(label1, 0, 0)
-        inputLayout.addWidget(self.lineEdit1, 0, 1)
-        inputLayout.addWidget(label2, 1, 0)
-        inputLayout.addWidget(self.lineEdit2, 1, 1)
-
-        self.setlayout(inputLayout)
-
-    def getInput(self):
-        self.cam = self.lineEdit1.text()
-        self.date = self.lineEdit2.text()
-
-        '''
-        finddb = videoDB.DBvideo()
-        findpath = finddb.findrecord(self.cam, self.day)
-        del finddb
-
-        while findpath == "":
-            self.cam = self.lineEdit1.text()
-            self.date = self.lineEdit2.text()
-
-            finddb = videoDB.DBvideo()
-            findpath = finddb.findrecord(self.cam, self.day)
-            del finddb    
-        '''
-
-        return self.cam, self.date
+        self.setGeometry(300, 300, 500, 300)
+        self.setWindowTitle('Input Window')

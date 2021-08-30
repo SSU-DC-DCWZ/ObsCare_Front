@@ -16,13 +16,13 @@ class DBvideo:
 
     def connectdb(self): # DB파일 선언 및 테이블 없을 경우 테이블 생성하는 함수
         try:  # 파일 경로 생성, 경로가 존재 하지 않을 경우 파일 경로 생성
-            if not (os.path.isdir("../db")):
-                os.makedirs(os.path.join("../db"))
+            if not (os.path.isdir("./db")):
+                os.makedirs(os.path.join("./db"))
         except OSError as e:  # 생성 실패 시 오류 코드 출력
             if e.errno != errno.EEXIST:
                 print("Dir error")
             raise
-        self.conn = sqlite3.connect('../db/video.db')
+        self.conn = sqlite3.connect('./db/video.db')
         self.cur = self.conn.cursor()
         # 카메라 별로 별도의 테이블 생성
         self.cur.execute("CREATE TABLE IF NOT EXISTS video_" + str(self.camnum) + " (day INTEGER, video_address TEXT)")
@@ -36,7 +36,7 @@ class DBvideo:
 
     def findrecord(self,cam,day): # 레코드 검색 함수
         # 입력받은 일자에 해당하는 레코드 검색
-        self.cur.execute("SELECT * FROM video_" + str(cam) + " WHERE day=" + str(day))
+        self.cur.execute("SELECT * FROM video_" + cam + " WHERE day=" + day)
         try:
             path = self.cur.fetchone()[1]
         except TypeError: # path가 없을 경우 빈 문자열 반환(상위 레벨에서 비어있을 경우에 해당하는 처리 필요)
