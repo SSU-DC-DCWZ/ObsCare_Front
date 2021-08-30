@@ -13,8 +13,8 @@ class ShowVideo(QtCore.QObject):
         super(ShowVideo, self).__init__(parent)
         self.id = id
         self.camera = cv2.VideoCapture(self.id)
-        self.camera.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
-        self.camera.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
+        # self.camera.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
+        # self.camera.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
 
     @QtCore.pyqtSlot()
     def startVideo(self):
@@ -29,6 +29,8 @@ class ShowVideo(QtCore.QObject):
 
             # 출력 형태 결정
             color_swapped_image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+            color_swapped_image = cv2.flip(color_swapped_image, 1)  # 좌우반전
+            color_swapped_image = cv2.flip(color_swapped_image, 0)  # 상하반전
 
             qt_image1 = QtGui.QImage(color_swapped_image.data,
                                     self.width,
@@ -46,7 +48,7 @@ class ImageViewer(QtWidgets.QWidget):
         super(ImageViewer, self).__init__(parent)
         self.image = QtGui.QImage()
         self.setAttribute(QtCore.Qt.WA_OpaquePaintEvent)
-        self.setFixedSize(853, 480)
+        # self.setFixedSize(853, 480)
 
     # 한 판에 하나 영상 띄우기 위한 그런거인듯
     def paintEvent(self, event):
@@ -62,5 +64,5 @@ class ImageViewer(QtWidgets.QWidget):
 
         self.image = image
         if image.size() != self.size():
-            self.setFixedSize(QtCore.QSize(853, 480))
+            self.setFixedSize(self.size())
         self.update()

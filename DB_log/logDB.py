@@ -18,13 +18,13 @@ class DBlog:
 
     def connectdb(self): #DB파일 선언 및 테이블 없을 경우 테이블 생성하는 함수
         try:  # 파일 경로 생성, 경로가 존재 하지 않을 경우 파일 경로 생성
-            if not (os.path.isdir("../db")):
-                os.makedirs(os.path.join("../db"))
+            if not (os.path.isdir("./db")):
+                os.makedirs(os.path.join("./db"))
         except OSError as e:  # 생성 실패 시 오류 코드 출력
             if e.errno != errno.EEXIST:
                 print("Dir error")
             raise
-        self.conn = sqlite3.connect('../db/log.db')
+        self.conn = sqlite3.connect('./db/log.db')
         self.cur = self.conn.cursor()
         self.cur.execute("CREATE TABLE IF NOT EXISTS log_" + str(self.situation) +
                                            " (day INTEGER, situation INTEGER, camera INTEGER, screenshot_address TEXT)")
