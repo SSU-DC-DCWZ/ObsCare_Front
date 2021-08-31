@@ -13,8 +13,6 @@ class ShowVideo(QtCore.QObject):
         super(ShowVideo, self).__init__(parent)
         self.id = id
         self.camera = cv2.VideoCapture(self.id)
-        # self.camera.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
-        # self.camera.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
 
     @QtCore.pyqtSlot()
     def startVideo(self):
