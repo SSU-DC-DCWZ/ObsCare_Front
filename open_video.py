@@ -6,20 +6,20 @@ from PyQt5 import QtGui
 
 class ShowVideo(QtCore.QObject):
 
-    # pyqtSignal은 사용자가 정하는 시그널이라던데,,,
+    # 영상 출력에 대한 사용자 정의 신호
     VideoSignal = QtCore.pyqtSignal(QtGui.QImage)
 
     def __init__(self, id = 0, parent=None):
         super(ShowVideo, self).__init__(parent)
         self.id = id
-        self.camera = cv2.VideoCapture(self.id)
+        self.camera = cv2.VideoCapture(self.id) # showvideo 선언하면서 들어오는 id에 따라 카메라 준비
 
-    @QtCore.pyqtSlot()
     def startVideo(self):
         global image
 
+        # 카메라 동작
         ret, image = self.camera.read()
-        self.height, self.width = image.shape[:2]   # 영상 사이즈
+        self.height, self.width = image.shape[:2]
 
         run_video = True
         while run_video:
@@ -35,27 +35,24 @@ class ShowVideo(QtCore.QObject):
                                     self.height,
                                     color_swapped_image.strides[0],
                                     QtGui.QImage.Format_RGB888)
-            self.VideoSignal.emit(qt_image1)    # 시그널 보내기,,,?
+            self.VideoSignal.emit(qt_image1)    # 영상 재생에 대한 신호 전송
 
             loop = QtCore.QEventLoop()
-            QtCore.QTimer.singleShot(25, loop.quit) #25 ms
+            QtCore.QTimer.singleShot(25, loop.quit)
             loop.exec_()
 
-class ImageViewer(QtWidgets.QWidget):
+class ImageViewer(QtWidgets.QWidget):   # 영상 재생하기 위한 board
     def __init__(self, parent=None):
         super(ImageViewer, self).__init__(parent)
         self.image = QtGui.QImage()
         self.setAttribute(QtCore.Qt.WA_OpaquePaintEvent)
-        # self.setFixedSize(853, 480)
 
-    # 한 판에 하나 영상 띄우기 위한 그런거인듯
-    def paintEvent(self, event):
+    def paintEvent(self, event):    # board에 영상 삽입
         painter = QtGui.QPainter(self)
-        # 규격 안 맞으면 가운데에 위치시키기 위해 좌표 지정
-        painter.drawImage((self.width()-self.image.width())/2, (self.height()-self.image.height())/2, self.image)
+        painter.drawImage(self.rect(), self.image)
         self.image = QtGui.QImage()
 
-    @QtCore.pyqtSlot(QtGui.QImage)
+    @QtCore.pyqtSlot(QtGui.QImage)  # 신호 받을 시 아래 함수 수행
     def setImage(self, image):
         if image.isNull():
             print("Viewer Dropped frame!")
