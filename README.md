@@ -38,7 +38,7 @@
 - 현재 재생되고 있는 영상 이외의 다른 영상으로도 넘어갈 수 있는 다른 영상 보기 버튼도 구현되어 있습니다.
 
 
-## Used Tools
+## Requirement
 ``` python
 Python v3.8.10
 opencv-python v4.2.0.34
