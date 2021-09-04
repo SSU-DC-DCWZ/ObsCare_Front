@@ -58,6 +58,7 @@ class WindowClass(QMainWindow, form_class):
         # 오른쪽에 알림창에,,, 로그 띄울 거)
 
         for i in range(100):
-            self.alert_browser.append(str(i))
+            word = '<span style=\" color: #ff0000; \"><b>%s</b></span>' % str(i)
+            self.alert_browser.append(word)
             self.alert_browser.moveCursor(QTextCursor.End)
             self.alert_browser.ensureCursorVisible()
