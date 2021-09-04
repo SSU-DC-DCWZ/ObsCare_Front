@@ -1,5 +1,6 @@
 from PyQt5.QtWidgets import *
 from PyQt5 import uic
+from PyQt5.QtGui import *
 from play_prev import *
 from DB_video.videoDB import *
 import sys
@@ -27,7 +28,7 @@ class WindowClass(QMainWindow, form_class):
 
         self.exit_button.clicked.connect(lambda : self.close()) # 나가기 버튼
         self.action_prev_video.triggered.connect(self.get_find_date)    # 이전 영상 보기 메뉴와 연결
-        self.show_alert(1)
+        self.show_alert()
 
     # get_find_date : 입력받은 카메라 번호와 날짜로 영상 재생 위함
     def get_find_date(self):
@@ -53,9 +54,10 @@ class WindowClass(QMainWindow, form_class):
             self.PrevVideo.show()
 
 
-    def show_alert(self, code):
+    def show_alert(self):
         # 오른쪽에 알림창에,,, 로그 띄울 거)
-        self.alert_browser.setPlainText("print the logs")
 
-        if code == 1:
-            self.alert_browser.append("넘어졌대!")
+        for i in range(100):
+            self.alert_browser.append(str(i))
+            self.alert_browser.moveCursor(QTextCursor.End)
+            self.alert_browser.ensureCursorVisible()
