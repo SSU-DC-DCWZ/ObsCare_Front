@@ -1,4 +1,4 @@
-# ObsCure_Front
+# ObsCare_Front
 
 ## 소개
 - CCTV 시스템 동작 및 동작 시 발생하는 영상과 스크린샷을 화면 상에 나타내기 위해 설계된 클래스입니다. </br>
@@ -56,4 +56,4 @@ QtPy v1.9.0
 #### 박세진([pseeej](https://github.com/pseeej)) : UI 생성 및 Model Threading 관리
 
 ## 라이선스
-#### 이 프로젝트는 [GNU General Public License v3.0](https://github.com/SSU-DC-DCWZ/ObsCure_Front/blob/main/LICENSE)을 사용합니다.
+#### 이 프로젝트는 [GNU General Public License v3.0](https://github.com/SSU-DC-DCWZ/ObsCare_Front/blob/main/LICENSE)을 사용합니다.
