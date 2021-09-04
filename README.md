@@ -49,11 +49,11 @@ QtPy v1.9.0
 ```
 
 ## 개발 환경
-PyCharm 2021.2.1 (Professional Edition </br>
-Windows 10
+#### PyCharm 2021.1.13 (Professional Edition) @11.0.11
+#### Ubuntu 20.04.3 LTS (GNU/Linux 5.11.0-25-generic x86_64)
 
 ## Contributor
-박세진([pseeej](https://github.com/pseeej)) : UI 생성 및 Model Threading 관리
+#### 박세진([pseeej](https://github.com/pseeej)) : UI 생성 및 Model Threading 관리
 
 ## License
-이 프로젝트는 [GNU General Public License v3.0](https://github.com/SSU-DC-DCWZ/ObsCure_Front/blob/main/LICENSE)을 사용합니다.
+#### 이 프로젝트는 [GNU General Public License v3.0](https://github.com/SSU-DC-DCWZ/ObsCure_Front/blob/main/LICENSE)을 사용합니다.
