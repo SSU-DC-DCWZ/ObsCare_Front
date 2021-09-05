@@ -37,6 +37,14 @@
 - 해당 파일에는 영상 재생, 일시정지 등의 기능이 구현되어 있으며,
 - 현재 재생되고 있는 영상 이외의 다른 영상으로도 넘어갈 수 있는 다른 영상 보기 버튼도 구현되어 있습니다.
 
+## 시연 사진
+### 기본 화면
+![image](https://user-images.githubusercontent.com/49185035/132118044-ee323539-4bcc-49c6-ab04-69ccfd37261d.png)
+### 이전 영상 확인 위한 input
+![image](https://user-images.githubusercontent.com/49185035/132118068-dc447c24-c51c-40e6-bb5a-8d8a212218aa.png)
+### 이전 영상 플레이어
+![image](https://user-images.githubusercontent.com/49185035/132118084-af0dc59a-796b-479c-8e4a-d5ef2f2471ee.png)
+
 
 ## Requirement
 ``` python
