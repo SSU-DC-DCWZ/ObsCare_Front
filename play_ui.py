@@ -26,6 +26,8 @@ class WindowClass(QMainWindow, form_class):
         super().__init__()
         self.setupUi(self)
 
+        self.setWindowIcon(QIcon('./img/web.png'))  # 창 아이콘 생성
+
         self.exit_button.clicked.connect(lambda : self.close()) # 나가기 버튼
         self.action_prev_video.triggered.connect(self.get_find_date)    # 이전 영상 보기 메뉴와 연결
         self.show_alert()
@@ -58,7 +60,8 @@ class WindowClass(QMainWindow, form_class):
         # 오른쪽에 알림창에,,, 로그 띄울 거)
 
         for i in range(100):
-            word = '<span style=\" color: #ff0000; \"><b>%s</b></span>' % str(i)
+            word = str(i)
             self.alert_browser.append(word)
+            # 스크롤바를 항상 아래에 고정시키기 위해 사용
             self.alert_browser.moveCursor(QTextCursor.End)
             self.alert_browser.ensureCursorVisible()
