@@ -17,6 +17,7 @@ if __name__ == '__main__':
     image_viewer3 = ImageViewer()
     image_viewer4 = ImageViewer()
 
+    # 연결된 카메라 번호 확인
     camNums = []
     for i in range(10):
         tmp = cv2.VideoCapture(i)
@@ -24,6 +25,12 @@ if __name__ == '__main__':
             camNums.append(i)
         tmp.release()
 
+    # 연결된 카메라만 
+    # thread 생성
+    # 카메라 번호를 이용하여 객체 생성
+    # thread와 카메라 객체 연결
+    # 영상 재생을 위한 배경과 카메라 신호 연결
+    # 영상 재생
     length = len(camNums)
     if length >= 1:
         thread1 = QtCore.QThread()
@@ -64,31 +71,6 @@ if __name__ == '__main__':
         start_button4 = QtWidgets.QPushButton()
         start_button4.clicked.connect(vid4.startVideo)
         start_button4.click()
-
-    # # thread 생성
-    # thread1 = QtCore.QThread()
-    # thread1.start()
-    # # 카메라 번호를 이용하여 객체 생성
-    # vid1 = ShowVideo(0)
-    # # thread와 카메라 객체 연결
-    # vid1.moveToThread(thread1)
-    #
-    # # thread2 = QtCore.QThread()
-    # # thread2.start()
-    # # vid2 = ShowVideo(1)
-    # # vid2.moveToThread(thread2)
-    #
-    # # 영상 재생을 위한 배경과 카메라 신호 연결
-    # vid1.VideoSignal.connect(image_viewer1.setImage)
-    # # vid2.VideoSignal.connect(image_viewer2.setImage)
-    #
-    # # 영상 재생
-    # start_button = QtWidgets.QPushButton()
-    # start_button.clicked.connect(vid1.startVideo)
-    # # start_button2 = QtWidgets.QPushButton()
-    # # start_button2.clicked.connect(vid2.startVideo)
-    # start_button.click()
-    # # start_button2.click()
 
     # video_layout에 영상 행,열로 추가
     myWindow.video_layout.addWidget(image_viewer1, 0, 0)
