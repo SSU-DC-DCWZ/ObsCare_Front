@@ -5,6 +5,8 @@ from play_prev import *
 from DB_video.videoDB import *
 import sys
 import os
+import winsound
+import time
 
 def resource_path(relative_path):
     """ Get absolute path to resource, works for dev and for PyInstaller """
@@ -55,6 +57,17 @@ class WindowClass(QMainWindow, form_class):
             self.PrevVideo = PrevVideo(get_path)    # 이전 영상 재생 객체 생성
             self.PrevVideo.show()
 
+    def alert_sound(self):
+        # winsound.Beep(31000, 1000)
+        # SND_ASYNC : 음악을 비동기로 실행
+        # SND_NOSTOP : 음악을 멈추지 않음
+        # SND_PURGE : 재생하는 모든 음악 멈춤
+
+        for _ in range(3):
+            winsound.Beep(2500, 100) # only work on Windows OS
+            time.sleep(1)   # 알림음 사이 간격 두기 위함
+
+
 
     def show_alert(self):
         # 오른쪽에 알림창에,,, 로그 띄울 거)
@@ -65,3 +78,5 @@ class WindowClass(QMainWindow, form_class):
             # 스크롤바를 항상 아래에 고정시키기 위해 사용
             self.alert_browser.moveCursor(QTextCursor.End)
             self.alert_browser.ensureCursorVisible()
+
+        self.alert_sound()
