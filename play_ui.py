@@ -30,9 +30,34 @@ class WindowClass(QMainWindow, form_class):
 
         self.setWindowIcon(QIcon('./img/web.png'))  # 창 아이콘 생성
 
-        self.exit_button.clicked.connect(lambda : self.close()) # 나가기 버튼
+        self.setUI()
+
         self.action_prev_video.triggered.connect(self.get_find_date)    # 이전 영상 보기 메뉴와 연결
         self.show_alert()
+
+    def setUI(self):
+        # introduction
+        window_name = QLabel("알림창")
+        window_name.setStyleSheet("color:white;")
+        window_name.setFont(QFont("궁서", 17))
+        window_name.setAlignment(Qt.AlignCenter)
+        self.alert_layout.addWidget(window_name)
+
+        # alert window
+        scroll = QScrollArea()
+        tmp_widget = QWidget()
+        scroll.setWidget(tmp_widget)
+        scroll.setWidgetResizable(True)
+
+        self.alert_list = QVBoxLayout(tmp_widget)
+
+        scroll.setFixedWidth(400)
+        self.alert_layout.addWidget(scroll)
+
+        # exit button
+        self.exit_button = QPushButton("나가기")
+        self.exit_button.clicked.connect(lambda: self.close())  # 나가기 버튼
+        self.alert_layout.addWidget(self.exit_button)
 
     # get_find_date : 입력받은 카메라 번호와 날짜로 영상 재생 위함
     def get_find_date(self):
@@ -72,11 +97,19 @@ class WindowClass(QMainWindow, form_class):
     def show_alert(self):
         # 오른쪽에 알림창에,,, 로그 띄울 거)
 
+        # for i in range(100):
+        #     word = str(i)
+        #     self.alert_browser.append(word)
+        #     # 스크롤바를 항상 아래에 고정시키기 위해 사용
+        #     self.alert_browser.moveCursor(QTextCursor.End)
+        #     self.alert_browser.ensureCursorVisible()
+
         for i in range(100):
-            word = str(i)
-            self.alert_browser.append(word)
-            # 스크롤바를 항상 아래에 고정시키기 위해 사용
-            self.alert_browser.moveCursor(QTextCursor.End)
-            self.alert_browser.ensureCursorVisible()
+            txt = f"**상황발생**\n위치 : {i}\n상황 : {i}"
+            btn = QPushButton(txt)
+            btn.setStyleSheet("background-color : white;")
+            self.alert_list.addWidget(btn)
+
+
 
         self.alert_sound()
