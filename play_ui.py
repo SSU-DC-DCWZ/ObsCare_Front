@@ -33,6 +33,7 @@ class WindowClass(QMainWindow, form_class):
         self.setUI()
 
         self.action_prev_video.triggered.connect(self.get_find_date)    # 이전 영상 보기 메뉴와 연결
+        self.action_help.triggered.connect(self.help_window)    # 도움말 보기 창 열기
         self.show_alert()
 
     def setUI(self):
@@ -113,3 +114,18 @@ class WindowClass(QMainWindow, form_class):
 
 
         self.alert_sound()
+
+    def help_window(self):
+        self.help = QMessageBox()
+        self.help.setStyleSheet("QLabel{min-width:400px; min-height:70px;}")
+        self.help.setWindowTitle('Help')
+        self.help.setIcon(QMessageBox.NoIcon)
+        self.help.setText("<h2>도움말</h2>")
+
+        infotxt = "<p>공공장소에서 눈만 돌리면 CCTV가 보인다는 말이 과언이 아닐 정도로 CCTV가 우리 생활에 깊숙이 자리 잡았습니다.</p>\
+                  <p>CCTV의 대수가 급격히 늘어나면서 관리와 효율성 문제와 더불어, 곳곳에 설치된 CCTV를 개별 관제하는 것으로는\
+                  응급 상황 대처 등에 실효성이 떨어질 수 있다는 지적이 대두되고 있습니다.</p>\
+                  <p>이런 문제점을 해결할 수 있는 방안으로 영상을 자동으로 분석하여 문제 상황을 즉시 알리는\
+                  지능형 영상 관제 시스템(ObsCare)을 제시하고자 합니다.</p>\n\n"
+        self.help.setInformativeText(infotxt)
+        self.help.exec_()

@@ -42,35 +42,35 @@ if __name__ == '__main__':
         start_button1.clicked.connect(vid1.startVideo)
         start_button1.click()
 
-    if length >= 2:
-        thread2 = QtCore.QThread()
-        thread2.start()
-        vid2 = ShowVideo(camNums[1])
-        vid2.moveToThread(thread2)
-        vid2.VideoSignal.connect(image_viewer2.setImage)
-        start_button2 = QtWidgets.QPushButton()
-        start_button2.clicked.connect(vid2.startVideo)
-        start_button2.click()
-
-    if length >= 3:
-        thread3 = QtCore.QThread()
-        thread3.start()
-        vid3 = ShowVideo(camNums[0])
-        vid3.moveToThread(thread3)
-        vid3.VideoSignal.connect(image_viewer3.setImage)
-        start_button3 = QtWidgets.QPushButton()
-        start_button3.clicked.connect(vid3.startVideo)
-        start_button3.click()
-
-    if length >= 4:
-        thread4 = QtCore.QThread()
-        thread4.start()
-        vid4 = ShowVideo(camNums[0])
-        vid4.moveToThread(thread4)
-        vid4.VideoSignal.connect(image_viewer4.setImage)
-        start_button4 = QtWidgets.QPushButton()
-        start_button4.clicked.connect(vid4.startVideo)
-        start_button4.click()
+    # if length >= 2:
+    #     thread2 = QtCore.QThread()
+    #     thread2.start()
+    #     vid2 = ShowVideo(camNums[1])
+    #     vid2.moveToThread(thread2)
+    #     vid2.VideoSignal.connect(image_viewer2.setImage)
+    #     start_button2 = QtWidgets.QPushButton()
+    #     start_button2.clicked.connect(vid2.startVideo)
+    #     start_button2.click()
+    #
+    # if length >= 3:
+    #     thread3 = QtCore.QThread()
+    #     thread3.start()
+    #     vid3 = ShowVideo(camNums[0])
+    #     vid3.moveToThread(thread3)
+    #     vid3.VideoSignal.connect(image_viewer3.setImage)
+    #     start_button3 = QtWidgets.QPushButton()
+    #     start_button3.clicked.connect(vid3.startVideo)
+    #     start_button3.click()
+    #
+    # if length >= 4:
+    #     thread4 = QtCore.QThread()
+    #     thread4.start()
+    #     vid4 = ShowVideo(camNums[0])
+    #     vid4.moveToThread(thread4)
+    #     vid4.VideoSignal.connect(image_viewer4.setImage)
+    #     start_button4 = QtWidgets.QPushButton()
+    #     start_button4.clicked.connect(vid4.startVideo)
+    #     start_button4.click()
 
     # video_layout에 영상 행,열로 추가
     myWindow.video_layout.addWidget(image_viewer1, 0, 0)
