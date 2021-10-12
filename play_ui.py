@@ -44,17 +44,16 @@ class WindowClass(QMainWindow, form_class):
         window_name.setAlignment(Qt.AlignCenter)
         self.alert_layout.addWidget(window_name)
 
-        # alert window
-        scroll = QScrollArea()
+        # 알림창에 들어갈 스크롤바 정의
+        self.scroll = QScrollArea()
         tmp_widget = QWidget()
+        self.scroll.setWidgetResizable(True)
+        self.scroll.setWidget(tmp_widget)
+        self.scroll.setFixedWidth(400)
 
-        scroll.setWidget(tmp_widget)
-        scroll.setWidgetResizable(True)
-
+        # 알림창 생성 및 스크롤바 연결
         self.alert_list = QVBoxLayout(tmp_widget)
-
-        scroll.setFixedWidth(400)
-        self.alert_layout.addWidget(scroll)
+        self.alert_layout.addWidget(self.scroll)
 
         # exit button
         self.exit_button = QPushButton("나가기")
