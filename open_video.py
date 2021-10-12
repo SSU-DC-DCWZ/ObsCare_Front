@@ -41,12 +41,12 @@ class ShowVideo(QtCore.QObject):
             color_swapped_image = cv2.flip(color_swapped_image, 0)  # 상하반전
 
             # 연속된 image 형태로 촬영 진행
-            qt_image1 = QtGui.QImage(color_swapped_image.data,
+            qt_image = QtGui.QImage(color_swapped_image.data,
                                     self.width,
                                     self.height,
                                     color_swapped_image.strides[0],
                                     QtGui.QImage.Format_RGB888)
-            self.VideoSignal.emit(qt_image1)    # 영상 재생에 대한 신호 전송
+            self.VideoSignal.emit(qt_image)    # 영상 재생에 대한 신호 전송
 
             loop = QtCore.QEventLoop()
             QtCore.QTimer.singleShot(25, loop.quit)
@@ -68,6 +68,9 @@ class ImageViewer(QtWidgets.QWidget):
     def paintEvent(self, event):
         # QtGui.QPainter 이용하여 board에 image의 pixel별로 기록
         painter = QtGui.QPainter(self)
+        color = QtGui.QColor(255, 0, 0)
+        color.setNamedColor('red')
+        painter.setPen(color)
         # painter에 self.image를 input으로 주어줌. self.rect() 이용하여 비율에 따라 그려지도록 함
         painter.drawImage(self.rect(), self.image)
         self.image = QtGui.QImage()

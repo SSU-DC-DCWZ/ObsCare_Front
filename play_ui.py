@@ -47,6 +47,7 @@ class WindowClass(QMainWindow, form_class):
         # alert window
         scroll = QScrollArea()
         tmp_widget = QWidget()
+
         scroll.setWidget(tmp_widget)
         scroll.setWidgetResizable(True)
 
@@ -110,7 +111,7 @@ class WindowClass(QMainWindow, form_class):
             btn = QPushButton(txt)
             btn.setStyleSheet("background-color : white;")
             self.alert_list.addWidget(btn)
-
+            self.alert_list.setAlignment(Qt.AlignTop)
 
 
         self.alert_sound()

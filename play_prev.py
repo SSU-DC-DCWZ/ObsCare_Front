@@ -4,7 +4,6 @@ from PyQt5.QtCore import Qt, QUrl, QCoreApplication
 from PyQt5.QtMultimedia import QMediaContent, QMediaPlayer
 from PyQt5.uic import loadUi
 from DB_video.videoDB import *
-import sys
 import datetime
 
 # pixel density를 높이기 위한 선언
