@@ -109,6 +109,7 @@ class WindowClass(QMainWindow, form_class):
             txt = f"**상황발생**\n위치 : {i}\n상황 : {i}"
             btn = QPushButton(txt)
             btn.setStyleSheet("background-color : white;")
+            btn.clicked.connect(btn.deleteLater)
             self.alert_list.addWidget(btn)
             self.alert_list.setAlignment(Qt.AlignTop)
 
