@@ -67,11 +67,7 @@ class ImageViewer(QtWidgets.QWidget):
     # event : WA_OpaquePaintEvent 위한 event
     def paintEvent(self, event):
         # QtGui.QPainter 이용하여 board에 image의 pixel별로 기록
-        painter = QtGui.QPainter(self)
-        color = QtGui.QColor(255, 0, 0)
-        color.setNamedColor('red')
-        painter.setPen(color)
-        # painter에 self.image를 input으로 주어줌. self.rect() 이용하여 비율에 따라 그려지도록 함
+        painter = QtGui.QPainter(self)        # painter에 self.image를 input으로 주어줌. self.rect() 이용하여 비율에 따라 그려지도록 함
         painter.drawImage(self.rect(), self.image)
         self.image = QtGui.QImage()
 

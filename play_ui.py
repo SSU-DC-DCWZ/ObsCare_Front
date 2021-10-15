@@ -32,6 +32,11 @@ class WindowClass(QMainWindow, form_class):
 
         self.setUI()
 
+        self.real_labels = [self.box, self.box2, self.box3, self.box4]
+        # self.alert_cnt = {}
+        # for i in range(4):
+        #     self.alert_cnt[i] = 0
+
         self.action_prev_video.triggered.connect(self.get_find_date)    # 이전 영상 보기 메뉴와 연결
         self.action_help.triggered.connect(self.help_window)    # 도움말 보기 창 열기
         self.show_alert()
@@ -94,7 +99,6 @@ class WindowClass(QMainWindow, form_class):
             time.sleep(1)   # 알림음 사이 간격 두기 위함
 
 
-
     def show_alert(self):
         # 오른쪽에 알림창에,,, 로그 띄울 거)
 
@@ -105,9 +109,12 @@ class WindowClass(QMainWindow, form_class):
         #     self.alert_browser.moveCursor(QTextCursor.End)
         #     self.alert_browser.ensureCursorVisible()
 
-        for i in range(100):
+        self.btn_info = {}  # btn : 몇 번 화면
+        for i in range(3):
             txt = f"**상황발생**\n위치 : {i}\n상황 : {i}"
             btn = QPushButton(txt)
+            self.btn_info[btn] = i
+            btn.clicked.connect(self.end_situation)
             btn.setStyleSheet("background-color : white;")
             self.alert_list.addWidget(btn)
             self.alert_list.setAlignment(Qt.AlignTop)
@@ -127,5 +134,17 @@ class WindowClass(QMainWindow, form_class):
                   응급 상황 대처 등에 실효성이 떨어질 수 있다는 지적이 대두되고 있습니다.</p>\
                   <p>이런 문제점을 해결할 수 있는 방안으로 영상을 자동으로 분석하여 문제 상황을 즉시 알리는\
                   지능형 영상 관제 시스템(ObsCare)을 제시하고자 합니다.</p>\n\n"
+
         self.help.setInformativeText(infotxt)
         self.help.exec_()
+
+    def draw_rect(self):
+        self.label.raise_()
+
+    def end_situation(self):
+        btn = self.sender()
+        label = self.btn_info[btn]
+
+        self.real_labels[label].setHidden(True)
+        btn.deleteLater()
+        self.btn_info.pop(btn)
