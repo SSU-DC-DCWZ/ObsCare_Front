@@ -116,6 +116,7 @@ class WindowClass(QMainWindow, form_class):
             self.btn_info[btn] = i
             btn.clicked.connect(self.end_situation)
             btn.setStyleSheet("background-color : white;")
+            btn.clicked.connect(btn.deleteLater)
             self.alert_list.addWidget(btn)
             self.alert_list.setAlignment(Qt.AlignTop)
 
@@ -137,6 +138,7 @@ class WindowClass(QMainWindow, form_class):
 
         self.help.setInformativeText(infotxt)
         self.help.exec_()
+<<<<<<< HEAD
 
     def draw_rect(self):
         self.label.raise_()
@@ -148,3 +150,5 @@ class WindowClass(QMainWindow, form_class):
         self.real_labels[label].setHidden(True)
         btn.deleteLater()
         self.btn_info.pop(btn)
+=======
+>>>>>>> ab7422af1afb9906ddb1ca896147c1659eac3874
