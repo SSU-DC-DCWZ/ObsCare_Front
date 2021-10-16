@@ -30,12 +30,10 @@ class WindowClass(QMainWindow, form_class):
 
         self.setWindowIcon(QIcon('./img/web.png'))  # 창 아이콘 생성
 
-        self.setUI()
+        self.setUI()    # UI 파일 가져오기
 
-        self.real_labels = [self.box, self.box2, self.box3, self.box4]
-        # self.alert_cnt = {}
-        # for i in range(4):
-        #     self.alert_cnt[i] = 0
+        self.real_labels = [self.box, self.box2, self.box3, self.box4]  # 테두리 창들로 이뤄진 list
+        self.btn_info = {}  # btn : 몇 번 화면 으로 구성된 dict
 
         self.action_prev_video.triggered.connect(self.get_find_date)    # 이전 영상 보기 메뉴와 연결
         self.action_help.triggered.connect(self.help_window)    # 도움말 보기 창 열기
@@ -43,9 +41,9 @@ class WindowClass(QMainWindow, form_class):
 
     def setUI(self):
         # introduction
-        window_name = QLabel("알림창")
+        window_name = QLabel("Alert List")
         window_name.setStyleSheet("color:white;")
-        window_name.setFont(QFont("궁서", 17))
+        window_name.setFont(QFont("Roboto", 17))
         window_name.setAlignment(Qt.AlignCenter)
         self.alert_layout.addWidget(window_name)
 
@@ -88,41 +86,44 @@ class WindowClass(QMainWindow, form_class):
             self.PrevVideo = PrevVideo(get_path)    # 이전 영상 재생 객체 생성
             self.PrevVideo.show()
 
+    # alert_sound : 상황 발생 시 소리로 알림 주기 위함
     def alert_sound(self):
-        # winsound.Beep(31000, 1000)
-        # SND_ASYNC : 음악을 비동기로 실행
-        # SND_NOSTOP : 음악을 멈추지 않음
-        # SND_PURGE : 재생하는 모든 음악 멈춤
-
         for _ in range(3):
             winsound.Beep(2500, 100) # only work on Windows OS
             time.sleep(1)   # 알림음 사이 간격 두기 위함
 
+    # make_alert(i) : i 상황을 기준으로 alert_layout에 알림 생성
+    def make_alert(self, i):
+        txt = f"**상황발생**\n시간 : 15:29:14\n위치 : {i}\n상황 : {i}"    # 위치 자리에 self.num, 상황 자리에 situation
+        btn = QPushButton(txt)  # 알림 관련 버튼 생성
+        self.btn_info[btn] = i  # self.btn_info에 btn : 위치 정보 삽입
+        btn.clicked.connect(self.end_situation) # 버튼 클릭 시 end_situation() 함수 실행
+        btn.setStyleSheet("background-color : white;")  # 버튼 스타일 지정
+        
+        self.real_labels[i].setStyleSheet('background-color : transparent;border:5px solid red;')   # 상황 발생 시 빨간색 테두리 생성
+
+        self.alert_list.addWidget(btn)  # 버튼 삽입
+        self.alert_list.setAlignment(Qt.AlignTop)
+
+        self.alert_sound()  # 알림 소리 울리도록 함
 
     def show_alert(self):
-        # 오른쪽에 알림창에,,, 로그 띄울 거)
+        # self.real_labels[0].setVisible(True)
+        self.check = 1
+        for i in range(4):
+            self.make_alert(i)
+            
+    # end_situation : 버튼 클릭 시 실행되는 함수로, 상황 종료를 나타내도록 함
+    def end_situation(self):
+        btn = self.sender() # 클릭된 버튼 정보 받아오기
+        label = self.btn_info[btn]  # 버튼이 가리키고 있는 위치 정보 받아오기
 
-        # for i in range(100):
-        #     word = str(i)
-        #     self.alert_browser.append(word)
-        #     # 스크롤바를 항상 아래에 고정시키기 위해 사용
-        #     self.alert_browser.moveCursor(QTextCursor.End)
-        #     self.alert_browser.ensureCursorVisible()
+        self.real_labels[label].setStyleSheet('background-color : transparent; border : none;') # 테두리 제거
 
-        self.btn_info = {}  # btn : 몇 번 화면
-        for i in range(3):
-            txt = f"**상황발생**\n위치 : {i}\n상황 : {i}"
-            btn = QPushButton(txt)
-            self.btn_info[btn] = i
-            btn.clicked.connect(self.end_situation)
-            btn.setStyleSheet("background-color : white;")
-            btn.clicked.connect(btn.deleteLater)
-            self.alert_list.addWidget(btn)
-            self.alert_list.setAlignment(Qt.AlignTop)
+        btn.deleteLater()   # 버튼 클릭 시 상황 종료와 함께 버튼 제거
+        self.btn_info.pop(btn)  # 저장되어있던 버튼 정보 제거
 
-
-        self.alert_sound()
-
+    # help_window : 도움말 창
     def help_window(self):
         self.help = QMessageBox()
         self.help.setStyleSheet("QLabel{min-width:400px; min-height:70px;}")
@@ -138,14 +139,3 @@ class WindowClass(QMainWindow, form_class):
 
         self.help.setInformativeText(infotxt)
         self.help.exec_()
-
-    def draw_rect(self):
-        self.label.raise_()
-
-    def end_situation(self):
-        btn = self.sender()
-        label = self.btn_info[btn]
-
-        self.real_labels[label].setHidden(True)
-        btn.deleteLater()
-        self.btn_info.pop(btn)
