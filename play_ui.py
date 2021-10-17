@@ -38,7 +38,7 @@ class WindowClass(QMainWindow, form_class):
 
         self.action_prev_video.triggered.connect(self.get_find_date)    # 이전 영상 보기 메뉴와 연결
         self.action_help.triggered.connect(self.help_window)    # 도움말 보기 창 열기
-        self.show_alert()
+        # self.show_alert()
 
     def setUI(self):
         # introduction
@@ -51,13 +51,13 @@ class WindowClass(QMainWindow, form_class):
         # 알림창에 들어갈 스크롤바 정의
         self.scroll = QScrollArea()
         tmp_widget = QWidget()
-        self.scroll.setWidgetResizable(True)
-        self.scroll.setWidget(tmp_widget)
-        self.scroll.setFixedWidth(400)
 
         # 알림창 생성 및 스크롤바 연결
         self.alert_list = QVBoxLayout(tmp_widget)
         self.alert_layout.addWidget(self.scroll)
+        self.scroll.setWidgetResizable(True)
+        self.scroll.setWidget(tmp_widget)
+        self.scroll.setFixedWidth(400)
 
         # exit button
         self.exit_button = QPushButton("나가기")
@@ -109,11 +109,10 @@ class WindowClass(QMainWindow, form_class):
 
         self.alert_sound()  # 알림 소리 울리도록 함
 
-    def show_alert(self):
-        # self.real_labels[0].setVisible(True)
-        self.check = 1
-        for i in range(4):
-            self.make_alert(i)
+    # def show_alert(self):
+    #     # self.real_labels[0].setVisible(True)
+    #     for i in range(15):
+    #         self.make_alert(0)
             
     # end_situation : 버튼 클릭 시 실행되는 함수로, 상황 종료를 나타내도록 함
     def end_situation(self):

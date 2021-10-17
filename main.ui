@@ -79,7 +79,7 @@ background-color : transparent;</string>
        </widget>
       </item>
       <item row="0" column="0">
-       <widget class="QLabel" name="box">
+       <widget class="QLabel" name="box1">
         <property name="styleSheet">
          <string notr="true">border : none;
 background-color : transparent;</string>
