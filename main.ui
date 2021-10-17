@@ -48,7 +48,7 @@
       <item row="0" column="1">
        <widget class="QLabel" name="box2">
         <property name="styleSheet">
-         <string notr="true">border : 5px solid red;
+         <string notr="true">border : none;
 background-color : transparent;</string>
         </property>
         <property name="text">
@@ -59,7 +59,7 @@ background-color : transparent;</string>
       <item row="1" column="0">
        <widget class="QLabel" name="box3">
         <property name="styleSheet">
-         <string notr="true">border : 5px solid red;
+         <string notr="true">border : none;
 background-color : transparent;</string>
         </property>
         <property name="text">
@@ -70,7 +70,7 @@ background-color : transparent;</string>
       <item row="1" column="1">
        <widget class="QLabel" name="box4">
         <property name="styleSheet">
-         <string notr="true">border : 5px solid red;
+         <string notr="true">border : none;
 background-color : transparent;</string>
         </property>
         <property name="text">
@@ -81,7 +81,7 @@ background-color : transparent;</string>
       <item row="0" column="0">
        <widget class="QLabel" name="box">
         <property name="styleSheet">
-         <string notr="true">border : 5px solid red;
+         <string notr="true">border : none;
 background-color : transparent;</string>
         </property>
         <property name="text">

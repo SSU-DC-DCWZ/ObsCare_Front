@@ -34,6 +34,7 @@ class WindowClass(QMainWindow, form_class):
 
         self.real_labels = [self.box, self.box2, self.box3, self.box4]  # 테두리 창들로 이뤄진 list
         self.btn_info = {}  # btn : 몇 번 화면 으로 구성된 dict
+        self.alert_cnt = [0 for _ in range(4)]  # 현재 특정 위치에 알림이 몇 개 생겼는지 확인하기 위한 list
 
         self.action_prev_video.triggered.connect(self.get_find_date)    # 이전 영상 보기 메뉴와 연결
         self.action_help.triggered.connect(self.help_window)    # 도움말 보기 창 열기
@@ -88,7 +89,7 @@ class WindowClass(QMainWindow, form_class):
 
     # alert_sound : 상황 발생 시 소리로 알림 주기 위함
     def alert_sound(self):
-        for _ in range(3):
+        for _ in range(5):
             winsound.Beep(2500, 100) # only work on Windows OS
             time.sleep(1)   # 알림음 사이 간격 두기 위함
 
@@ -96,10 +97,11 @@ class WindowClass(QMainWindow, form_class):
     def make_alert(self, i):
         txt = f"**상황발생**\n시간 : 15:29:14\n위치 : {i}\n상황 : {i}"    # 위치 자리에 self.num, 상황 자리에 situation
         btn = QPushButton(txt)  # 알림 관련 버튼 생성
-        self.btn_info[btn] = i  # self.btn_info에 btn : 위치 정보 삽입
+        self.btn_info[btn] = 0  # self.btn_info에 btn : 위치 정보 삽입
         btn.clicked.connect(self.end_situation) # 버튼 클릭 시 end_situation() 함수 실행
         btn.setStyleSheet("background-color : white;")  # 버튼 스타일 지정
-        
+
+        self.alert_cnt[0] += 1  # 해당 위치의 알림 개수 +1
         self.real_labels[i].setStyleSheet('background-color : transparent;border:5px solid red;')   # 상황 발생 시 빨간색 테두리 생성
 
         self.alert_list.addWidget(btn)  # 버튼 삽입
@@ -118,7 +120,9 @@ class WindowClass(QMainWindow, form_class):
         btn = self.sender() # 클릭된 버튼 정보 받아오기
         label = self.btn_info[btn]  # 버튼이 가리키고 있는 위치 정보 받아오기
 
-        self.real_labels[label].setStyleSheet('background-color : transparent; border : none;') # 테두리 제거
+        if self.alert_cnt[label] == 1:  # 해당 위치의 알림이 모두 제거되었을 경우
+            self.real_labels[label].setStyleSheet('background-color : transparent; border : none;') # 테두리 제거
+        self.alert_cnt[label] -= 1  # 해당 알림이 종료되었음을 기록
 
         btn.deleteLater()   # 버튼 클릭 시 상황 종료와 함께 버튼 제거
         self.btn_info.pop(btn)  # 저장되어있던 버튼 정보 제거
