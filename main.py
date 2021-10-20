@@ -39,7 +39,7 @@ if __name__ == '__main__':
     myWindow.video_layout.addWidget(image_viewer3, 0, 1)
     myWindow.video_layout.addWidget(image_viewer4, 1, 0)
 
-    myWindow.box.raise_()
+    myWindow.box1.raise_()
     myWindow.box2.raise_()
     myWindow.box3.raise_()
     myWindow.box4.raise_()

@@ -5,8 +5,6 @@ from play_prev import *
 from DB_video.videoDB import *
 import sys
 import os
-import winsound
-import time
 
 def resource_path(relative_path):
     """ Get absolute path to resource, works for dev and for PyInstaller """
@@ -32,13 +30,13 @@ class WindowClass(QMainWindow, form_class):
 
         self.setUI()    # UI 파일 가져오기
 
-        self.real_labels = [self.box, self.box2, self.box3, self.box4]  # 테두리 창들로 이뤄진 list
+        self.real_labels = [self.box1, self.box2, self.box3, self.box4]  # 테두리 창들로 이뤄진 list
         self.btn_info = {}  # btn : 몇 번 화면 으로 구성된 dict
         self.alert_cnt = [0 for _ in range(4)]  # 현재 특정 위치에 알림이 몇 개 생겼는지 확인하기 위한 list
 
         self.action_prev_video.triggered.connect(self.get_find_date)    # 이전 영상 보기 메뉴와 연결
         self.action_help.triggered.connect(self.help_window)    # 도움말 보기 창 열기
-        # self.show_alert()
+        self.show_alert()
 
     def setUI(self):
         # introduction
@@ -57,7 +55,6 @@ class WindowClass(QMainWindow, form_class):
         self.alert_layout.addWidget(self.scroll)
         self.scroll.setWidgetResizable(True)
         self.scroll.setWidget(tmp_widget)
-        self.scroll.setFixedWidth(400)
 
         # exit button
         self.exit_button = QPushButton("나가기")
@@ -87,12 +84,6 @@ class WindowClass(QMainWindow, form_class):
             self.PrevVideo = PrevVideo(get_path)    # 이전 영상 재생 객체 생성
             self.PrevVideo.show()
 
-    # alert_sound : 상황 발생 시 소리로 알림 주기 위함
-    def alert_sound(self):
-        for _ in range(5):
-            winsound.Beep(2500, 100) # only work on Windows OS
-            time.sleep(1)   # 알림음 사이 간격 두기 위함
-
     # make_alert(i) : i 상황을 기준으로 alert_layout에 알림 생성
     def make_alert(self, i):
         txt = f"**상황발생**\n시간 : 15:29:14\n위치 : {i}\n상황 : {i}"    # 위치 자리에 self.num, 상황 자리에 situation
@@ -107,12 +98,9 @@ class WindowClass(QMainWindow, form_class):
         self.alert_list.addWidget(btn)  # 버튼 삽입
         self.alert_list.setAlignment(Qt.AlignTop)
 
-        self.alert_sound()  # 알림 소리 울리도록 함
-
-    # def show_alert(self):
-    #     # self.real_labels[0].setVisible(True)
-    #     for i in range(15):
-    #         self.make_alert(0)
+    def show_alert(self):
+        for i in range(15):
+            self.make_alert(0)
             
     # end_situation : 버튼 클릭 시 실행되는 함수로, 상황 종료를 나타내도록 함
     def end_situation(self):
