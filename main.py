@@ -20,7 +20,7 @@ if __name__ == '__main__':
     # 연결된 카메라만 
     # thread 생성
     # 카메라 번호를 이용하여 객체 생성
-    # thread와 카메라 객체 연결
+    # thread와 카메라 객  체 연결
     # 영상 재생을 위한 배경과 카메라 신호 연결
     # 영상 재생
     thread1 = QtCore.QThread()
