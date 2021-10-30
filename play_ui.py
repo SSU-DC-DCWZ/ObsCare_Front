@@ -36,13 +36,14 @@ class WindowClass(QMainWindow, form_class):
 
         self.action_prev_video.triggered.connect(self.get_find_date)    # 이전 영상 보기 메뉴와 연결
         self.action_help.triggered.connect(self.help_window)    # 도움말 보기 창 열기
+        self.cnt = 0
         self.show_alert()
 
     def setUI(self):
         # introduction
         window_name = QLabel("Alert List")
-        window_name.setStyleSheet("color:white;")
-        window_name.setFont(QFont("Roboto", 17))
+        window_name.setStyleSheet("color:white;font-weight:bold;")
+        window_name.setFont(QFont("Roboto", 19))
         window_name.setAlignment(Qt.AlignCenter)
         self.alert_layout.addWidget(window_name)
 
@@ -54,8 +55,10 @@ class WindowClass(QMainWindow, form_class):
         self.alert_list = QVBoxLayout(tmp_widget)
         self.alert_layout.addWidget(self.scroll)
         self.scroll.setWidgetResizable(True)
+        self.scrollbar = self.scroll.verticalScrollBar()
         self.scroll.setWidget(tmp_widget)
         self.scroll.setMaximumWidth(400)
+        self.scrollbar.setRange(99, 99)
 
         # exit button
         self.exit_button = QPushButton("나가기")
@@ -87,7 +90,8 @@ class WindowClass(QMainWindow, form_class):
 
     # make_alert(i) : i 상황을 기준으로 alert_layout에 알림 생성
     def make_alert(self, i):
-        txt = f"**상황발생**\n시간 : 15:29:14\n위치 : {i}\n상황 : {i}"    # 위치 자리에 self.num, 상황 자리에 situation
+        txt = f"**상황발생**\n시간 : 15:29:14\n위치 : {i}\n상황 : {self.cnt}"    # 위치 자리에 self.num, 상황 자리에 situation
+        self.cnt += 1
         btn = QPushButton(txt)  # 알림 관련 버튼 생성
         self.btn_info[btn] = 0  # self.btn_info에 btn : 위치 정보 삽입
         btn.clicked.connect(self.end_situation) # 버튼 클릭 시 end_situation() 함수 실행
@@ -98,9 +102,10 @@ class WindowClass(QMainWindow, form_class):
 
         self.alert_list.addWidget(btn)  # 버튼 삽입
         self.alert_list.setAlignment(Qt.AlignTop)
+        self.scrollbar.setRange(99,99)
 
     def show_alert(self):
-        for i in range(15):
+        for i in range(3):
             self.make_alert(0)
             
     # end_situation : 버튼 클릭 시 실행되는 함수로, 상황 종료를 나타내도록 함
