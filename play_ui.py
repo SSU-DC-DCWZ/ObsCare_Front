@@ -56,9 +56,10 @@ class WindowClass(QMainWindow, form_class):
         self.alert_layout.addWidget(self.scroll)
         self.scroll.setWidgetResizable(True)
         self.scrollbar = self.scroll.verticalScrollBar()
+        self.scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
         self.scroll.setWidget(tmp_widget)
         self.scroll.setMaximumWidth(400)
-        self.scrollbar.setRange(99, 99)
+        self.scrollbar.setRange(2147483647, 2147483647)
 
         # exit button
         self.exit_button = QPushButton("나가기")
@@ -102,10 +103,9 @@ class WindowClass(QMainWindow, form_class):
 
         self.alert_list.addWidget(btn)  # 버튼 삽입
         self.alert_list.setAlignment(Qt.AlignTop)
-        self.scrollbar.setRange(99,99)
 
     def show_alert(self):
-        for i in range(3):
+        for i in range(20):
             self.make_alert(0)
             
     # end_situation : 버튼 클릭 시 실행되는 함수로, 상황 종료를 나타내도록 함
