@@ -27,6 +27,8 @@
 > MainWindow의 main.ui를 실행시키는 파일입니다.
 
 - MainWindow를 위한 main.ui에서의 버튼 등의 기능을 구현하고 있습니다.
+- [ObsCare_Main](https://github.com/SSU-DC-DCWZ/ObsCare_Main.git)에서 상황 감지 시 버튼 생성의 기능을 가지고 있습니다.
+- 상황 종료 시 버튼 클릭으로 해당 위치의 하이라이트와 버튼을 제거할 수 있습니다.
 - 현재 촬영 중인 cctv 영상 이외의 이전 영상을 확인하기 위한 기능 또한 구현되어 있습니다.
 - 해당 파일에서 videoDB에 접근하여 사용자가 찾고자 하는 영상의 절대 주소를 얻어옵니다.
 
@@ -38,12 +40,14 @@
 - 현재 재생되고 있는 영상 이외의 다른 영상으로도 넘어갈 수 있는 다른 영상 보기 버튼도 구현되어 있습니다.
 
 ## 시연 사진
-### 기본 화면
-![image](https://user-images.githubusercontent.com/49185035/132118044-ee323539-4bcc-49c6-ab04-69ccfd37261d.png)
-### 이전 영상 확인 위한 input
-![image](https://user-images.githubusercontent.com/49185035/132118068-dc447c24-c51c-40e6-bb5a-8d8a212218aa.png)
-### 이전 영상 플레이어
-![image](https://user-images.githubusercontent.com/49185035/132118084-af0dc59a-796b-479c-8e4a-d5ef2f2471ee.png)
+### 상황 감지 시 log 버튼 생성
+![1](https://user-images.githubusercontent.com/60226988/140634507-77c0d966-b798-4e0f-bf11-b0737c27a99a.gif)
+### 상황 종료 시 log 버튼 제거
+![2](https://user-images.githubusercontent.com/60226988/140634523-3b4f2432-0998-47a2-9c73-97b2dc7ab8cf.gif)
+### 이전 영상 확인
+![3](https://user-images.githubusercontent.com/60226988/140634539-bae2816b-1f56-4519-b1e1-9ab638e91a8d.gif)
+### 도움말 확인
+![4](https://user-images.githubusercontent.com/60226988/140634551-2b8ca21a-9036-4f65-ad58-ff40932be0e2.gif)
 
 
 ## Requirement
